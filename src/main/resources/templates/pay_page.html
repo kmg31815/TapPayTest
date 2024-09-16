@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Direct Pay 測試</title>
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+    <script>
+        TPDirect.setupSDK(153920, 'app_Y97nN1U0OOaybIRVSYQiO9aIp4J6ZZeDKtX8S9y4YA4AyKnWVkkXKV3GADKq', 'sandbox')
+    </script>
+</head>
+
+<body>
+<div style="margin-left: 500px; margin-right: 500px">
+    <h1>TapPay for Direct Pay!</h1>
+
+    <p>信用卡</p>
+    <div id="tappay-iframe"></div>
+
+    <button id="submit" disabled>確認付款</button>
+
+    <div id="result"></div>
+</div>
+
+<script>
+        TPDirect.card.setup('#tappay-iframe')
+
+        TPDirect.card.onUpdate(function (update) {
+            var submitButton = document.querySelector('#submit')
+            if (update.canGetPrime) {
+                submitButton.removeAttribute('disabled')
+            } else {
+                submitButton.setAttribute('disabled', true)
+            }
+        })
+
+        document.querySelector('#submit').addEventListener('click', function(event) {
+            TPDirect.card.getPrime(function (result) {
+                document.querySelector('#result').innerHTML  = JSON.stringify(result, null, 4)
+                console.log('getPrime success: ' + result.card.prime)
+            })
+        })
+</script>
+</body>
+
+</html>

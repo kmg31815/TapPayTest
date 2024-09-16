@@ -1,0 +1,47 @@
+{
+	"info": {
+		"_postman_id": "82246f3e-fa55-40eb-b316-f7e8ae377ee5",
+		"name": "TapPay API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20002738"
+	},
+	"item": [
+		{
+			"name": "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\r\n    \"prime\": \"5a0d1f6ee98613b2eb60d04fb2da15154122216a4485923abe89f74f4a856d8b\",\r\n    \"amount\": \"999\",\r\n    \"merchant_id\": \"tppf_sherry_GP_POS_2\",\r\n    \"details\": \"Some item\",\r\n    \"cardholder\": {\r\n        \"phone_number\": \"+886923456789\",\r\n        \"name\": \"王小明\",\r\n        \"email\": \"LittleMing@Wang.com\",\r\n        \"zip_code\": \"100\",\r\n        \"address\": \"台北市天龍區芝麻街1號1樓\",\r\n        \"national_id\": \"A123456789\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"tappaysdk",
+						"com"
+					],
+					"path": [
+						"tpc",
+						"payment",
+						"pay-by-prime"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
