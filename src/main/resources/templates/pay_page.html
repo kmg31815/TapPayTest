@@ -17,10 +17,17 @@
 
     <p>信用卡</p>
     <div id="tappay-iframe"></div>
-
-    <button id="submit" disabled>確認付款</button>
-
+    <button id="submit" disabled>Get prime</button>
     <div id="result"></div>
+</div>
+
+<div style="margin-left: 500px; margin-right: 500px">
+    <h1>Pay by prime</h1>
+    <form action="/pay-by-prime" method="post">
+        <label for="prime">Prime:</label><br>
+        <input type="text" id="prime" name="prime">
+        <input type="submit" value="Pay by prime">
+    </form>
 </div>
 
 <script>
@@ -37,7 +44,7 @@
 
         document.querySelector('#submit').addEventListener('click', function(event) {
             TPDirect.card.getPrime(function (result) {
-                document.querySelector('#result').innerHTML  = JSON.stringify(result, null, 4)
+                document.querySelector('#result').innerHTML  = JSON.stringify(result, null, "\t")
                 console.log('getPrime success: ' + result.card.prime)
             })
         })

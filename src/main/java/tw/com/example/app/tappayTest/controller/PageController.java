@@ -11,4 +11,9 @@ public class PageController {
         return "pay_page";
     }
 
+    @RequestMapping("/record")
+    public String recordPage() {
+        return "record_page";
+    }
+
 }
