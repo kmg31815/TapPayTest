@@ -1,5 +1,6 @@
 package tw.com.example.app.tappayTest.feign;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,25 +8,33 @@ import lombok.Setter;
 @Setter
 public class RefundRS {
 
+    @JsonProperty(value = "msg")
     private String msg;
-    private String bank_result_code;
-    private String bank_result_msg;
-    private int refund_amount;
-    private boolean is_captured;
+    @JsonProperty(value = "bank_result_code")
+    private String bankResultCode;
+    @JsonProperty(value = "bank_result_msg")
+    private String bankResultMsg;
+    @JsonProperty(value = "refund_amount")
+    private int refundAmount;
+    @JsonProperty(value = "is_captured")
+    private boolean isCaptured;
+    @JsonProperty(value = "currency")
     private String currency;
-    private String refund_id;
+    @JsonProperty(value = "refund_id")
+    private String refundId;
+    @JsonProperty(value = "status")
     private int status;
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("RefundRS [").append("msg=").append(msg);
-        builder.append(", bank_result_code=").append(bank_result_code);
-        builder.append(", bank_result_msg=").append(bank_result_msg);
-        builder.append(", refund_amount=").append(refund_amount);
-        builder.append(", is_captured=").append(is_captured);
+        builder.append(", bankResultCode=").append(bankResultCode);
+        builder.append(", bankResultMsg=").append(bankResultMsg);
+        builder.append(", refundAmount=").append(refundAmount);
+        builder.append(", isCaptured=").append(isCaptured);
         builder.append(", currency=").append(currency);
-        builder.append(", refund_id=").append(refund_id);
+        builder.append(", refundId=").append(refundId);
         builder.append(", status=").append(status);
         builder.append("]");
         return builder.toString();

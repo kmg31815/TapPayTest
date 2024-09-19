@@ -2,24 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>查詢</title>
+    <title>Direct Pay 查詢</title>
 </head>
 <body>
-<div style="margin-left: 500px; margin-right: 500px">
-    <h1>Record</h1>
-    <form action="/record" method="post">
-        <label for="record_id">record_id:</label><br>
-        <input type="text" id="record_id" name="record_id">
-        <input type="submit" value="查詢">
-    </form>
+<div style="margin-left: 200px; margin-right: 200px">
+    <label for="record_id">record_id:</label><br>
+    <input type="text" id="record_id" name="record_id">
+    <button id="submit_record">查詢</button>
+    <div id="result_record"></div>
+
+    <button id="submit_refund" disabled>退款</button>
+    <div id="result_refund"></div>
 </div>
-<div style="margin-left: 500px; margin-right: 500px">
-    <h1>Refund</h1>
-    <form action="/refund" method="post">
-        <label for="rec_trade_id">rec_trade_id:</label><br>
-        <input type="text" id="rec_trade_id" name="rec_trade_id">
-        <input type="submit" value="退款">
-    </form>
-</div>
+
+<script>
+    // 查詢
+    document.querySelector('#submit_record').addEventListener('click', function (event) {
+        const apiUrl = 'http://localhost:8080/record';
+        const data = {
+            partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+            filters: {
+                time: {
+                    "start_time": 1726481540000,
+                    "end_time": 1727691115000
+                },
+                rec_trade_id: document.getElementById('record_id').value
+            }
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+            },
+            body: JSON.stringify(data),
+        };
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelector('#submit_refund').removeAttribute('disabled') // 顯示退款按鈕
+                document.querySelector('#result_record').innerHTML = JSON.stringify(data, null, "\t")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    })
+
+    // 退款
+    document.querySelector('#submit_refund').addEventListener('click', function (event) {
+        const apiUrl = 'http://localhost:8080/refund';
+        const data = {
+            partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+            rec_trade_id: document.getElementById('record_id').value
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+            },
+            body: JSON.stringify(data),
+        };
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelector('#result_refund').innerHTML = JSON.stringify(data, null, "\t")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    })
+</script>
 </body>
 </html>

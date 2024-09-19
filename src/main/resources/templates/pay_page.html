@@ -7,47 +7,139 @@
     <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
     <script>
+        // 設定參數
         TPDirect.setupSDK(153920, 'app_Y97nN1U0OOaybIRVSYQiO9aIp4J6ZZeDKtX8S9y4YA4AyKnWVkkXKV3GADKq', 'sandbox')
     </script>
 </head>
 
 <body>
-<div style="margin-left: 500px; margin-right: 500px">
-    <h1>TapPay for Direct Pay!</h1>
+<div style="margin-left: 400px; margin-right: 400px">
+    <h1>Pay By Prime!</h1>
 
     <p>信用卡</p>
     <div id="tappay-iframe"></div>
-    <button id="submit" disabled>Get prime</button>
+
+    <button id="submit" disabled>一般交易</button>
+    <button id="submit_3d" disabled>3D驗證交易</button>
     <div id="result"></div>
 </div>
 
-<div style="margin-left: 500px; margin-right: 500px">
-    <h1>Pay by prime</h1>
-    <form action="/pay-by-prime" method="post">
-        <label for="prime">Prime:</label><br>
-        <input type="text" id="prime" name="prime">
-        <input type="submit" value="Pay by prime">
-    </form>
-</div>
-
 <script>
-        TPDirect.card.setup('#tappay-iframe')
+    // 設定外觀
+    TPDirect.card.setup('#tappay-iframe')
 
-        TPDirect.card.onUpdate(function (update) {
-            var submitButton = document.querySelector('#submit')
-            if (update.canGetPrime) {
-                submitButton.removeAttribute('disabled')
-            } else {
-                submitButton.setAttribute('disabled', true)
-            }
-        })
+    // 取得 TapPay Fields 狀態
+    TPDirect.card.onUpdate(function (update) {
+        if (update.canGetPrime) {
+            document.querySelector('#submit').removeAttribute('disabled')
+            document.querySelector('#submit_3d').removeAttribute('disabled')
+        } else {
+            document.querySelector('#submit').setAttribute('disabled', true)
+            document.querySelector('#submit_3d').setAttribute('disabled', true)
+        }
+    })
 
-        document.querySelector('#submit').addEventListener('click', function(event) {
-            TPDirect.card.getPrime(function (result) {
-                document.querySelector('#result').innerHTML  = JSON.stringify(result, null, "\t")
-                console.log('getPrime success: ' + result.card.prime)
-            })
+    const apiUrl = 'http://localhost:8080/pay-by-prime';
+
+    // 一般交易
+    document.querySelector('#submit').addEventListener('click', function (event) {
+        // 取得 prime 字串
+        TPDirect.card.getPrime(function (result) {
+            // document.querySelector('#result').innerHTML = JSON.stringify(result, null, "\t")
+            console.log('getPrime success: ' + result.card.prime)
+
+            const data = {
+                partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+                prime: result.card.prime,
+                amount: "999",
+                merchant_id: "sherry_CTBC",
+                details: "Some item",
+                cardholder: {
+                    "phone_number": "+886923456789",
+                    "name": "王小明",
+                    "email": "LittleMing@Wang.com",
+                    "zip_code": "100",
+                    "address": "台北市天龍區芝麻街1號1樓",
+                    "national_id": "A123456789"
+                }
+            };
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+                },
+                body: JSON.stringify(data),
+            };
+            fetch(apiUrl, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('成功:', data);
+                    document.querySelector('#result').innerHTML = JSON.stringify(data, null, "\t")
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         })
+    })
+
+    // 3D驗證交易
+    document.querySelector('#submit_3d').addEventListener('click', function (event) {
+        TPDirect.card.getPrime(function (result) {
+            // document.querySelector('#result').innerHTML = JSON.stringify(result, null, "\t")
+            console.log('getPrime success: ' + result.card.prime)
+
+            const data = {
+                partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+                prime: result.card.prime,
+                amount: "999",
+                merchant_id: "sherry_CTBC",
+                details: "Some item",
+                three_domain_secure: true,
+                result_url: {
+                    "frontend_redirect_url": "http://127.0.0.1:8080/payment",
+                    "backend_notify_url": "https://test.requestcatcher.com" // 這個做什麼的？
+                },
+                cardholder: {
+                    "phone_number": "+886923456789",
+                    "name": "王小明",
+                    "email": "LittleMing@Wang.com",
+                    "zip_code": "100",
+                    "address": "台北市天龍區芝麻街1號1樓",
+                    "national_id": "A123456789"
+                }
+            };
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+                },
+                body: JSON.stringify(data),
+            };
+            fetch(apiUrl, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('成功:', data);
+                    document.querySelector('#result').innerHTML = JSON.stringify(data, null, "\t")
+                    // 跳轉至 payment_url 頁面
+                    window.location.replace(data.payment_url)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        })
+    })
 </script>
 </body>
 

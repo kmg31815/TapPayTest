@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Direct Pay 成功</title>
+</head>
+<body>
+record_id: <span id="record_id"></span>
+
+<div id="result_record"></div>
+<button id="submit_refund" disabled>退款</button>
+<div id="result_refund"></div>
+
+<script>
+    const record_id = new URLSearchParams(document.location.search).get('rec_trade_id') // 取得 url 參數
+    console.log("record_id: " + record_id)
+
+    document.querySelector('#record_id').innerHTML = record_id
+
+    // 查詢
+    const apiUrl = 'http://127.0.0.1:8080/record';
+    const data = {
+        partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+        filters: {
+            time: {
+                "start_time": 1726481540000,
+                "end_time": 1727691115000
+            },
+            rec_trade_id: record_id
+        }
+    };
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+        },
+        body: JSON.stringify(data),
+    };
+    fetch(apiUrl, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector('#submit_refund').removeAttribute('disabled') // 顯示退款按鈕
+            document.querySelector('#result_record').innerHTML = JSON.stringify(data, null, "\t")
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    // 退款
+    document.querySelector('#submit_refund').addEventListener('click', function (event) {
+        const apiUrl = 'http://127.0.0.1:8080/refund';
+        const data = {
+            partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+            rec_trade_id: record_id
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+            },
+            body: JSON.stringify(data),
+        };
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelector('#result_refund').innerHTML = JSON.stringify(data, null, "\t")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    })
+</script>
+</body>
+</html>

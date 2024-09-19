@@ -16,4 +16,9 @@ public class PageController {
         return "record_page";
     }
 
+    @RequestMapping("/payment")
+    public String paymentPage() {
+        return "payment_page";
+    }
+
 }
