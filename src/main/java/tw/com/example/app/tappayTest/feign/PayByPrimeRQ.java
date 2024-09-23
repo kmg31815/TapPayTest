@@ -24,6 +24,8 @@ public class PayByPrimeRQ {
     private ResultUrl resultUrl;
     @JsonProperty(value = "cardholder")
     private Cardholder cardholder;
+    @JsonProperty(value = "remember")
+    private Boolean remember;
 
     @Setter
     @Getter
@@ -84,6 +86,7 @@ public class PayByPrimeRQ {
         builder.append(", threeDomainSecure=").append(threeDomainSecure);
         builder.append(", resultUrl=").append(resultUrl);
         builder.append(", cardholder=").append(cardholder);
+        builder.append(", remember=").append(remember);
         builder.append("]");
         return builder.toString();
     }

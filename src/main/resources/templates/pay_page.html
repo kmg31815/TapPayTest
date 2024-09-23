@@ -39,7 +39,7 @@
         }
     })
 
-    const apiUrl = 'http://localhost:8080/pay-by-prime';
+    const apiUrl = 'http://localhost:8080/tpc/payment/pay-by-prime';
 
     // 一般交易
     document.querySelector('#submit').addEventListener('click', function (event) {
@@ -102,7 +102,7 @@
                 details: "Some item",
                 three_domain_secure: true,
                 result_url: {
-                    "frontend_redirect_url": "http://127.0.0.1:8080/payment",
+                    "frontend_redirect_url": "http://127.0.0.1:8080/page/payment",
                     "backend_notify_url": "https://test.requestcatcher.com" // 這個做什麼的？
                 },
                 cardholder: {

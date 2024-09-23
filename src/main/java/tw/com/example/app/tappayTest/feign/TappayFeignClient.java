@@ -11,6 +11,9 @@ public interface TappayFeignClient {
     @PostMapping("/payment/pay-by-prime")
     PayByPrimeRS payByPrime(@RequestBody PayByPrimeRQ payByPrimeRQ, @RequestHeader("x-api-key") String apikey);
 
+    @PostMapping("/payment/pay-by-token")
+    PayByTokenRS payByToken(@RequestBody PayByTokenRQ payByTokenRQ, @RequestHeader("x-api-key") String apikey);
+
     @PostMapping("/transaction/query")
     RecordRS record(@RequestBody RecordRQ recordRQ, @RequestHeader("x-api-key") String apikey);
 

@@ -8,6 +8,7 @@
 record_id: <span id="record_id"></span>
 
 <div id="result_record"></div>
+
 <button id="submit_refund" disabled>退款</button>
 <div id="result_refund"></div>
 
@@ -18,7 +19,7 @@ record_id: <span id="record_id"></span>
     document.querySelector('#record_id').innerHTML = record_id
 
     // 查詢
-    const apiUrl = 'http://127.0.0.1:8080/record';
+    const apiUrl = 'http://127.0.0.1:8080/tpc/transaction/query';
     const data = {
         partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
         filters: {
@@ -54,7 +55,7 @@ record_id: <span id="record_id"></span>
 
     // 退款
     document.querySelector('#submit_refund').addEventListener('click', function (event) {
-        const apiUrl = 'http://127.0.0.1:8080/refund';
+        const apiUrl = 'http://127.0.0.1:8080/tpc/transaction/refund';
         const data = {
             partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
             rec_trade_id: record_id

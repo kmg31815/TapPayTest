@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class PayByPrimeRS {
+public class PayByTokenRS {
 
     @JsonProperty(value = "status")
     private int status;
@@ -18,8 +18,6 @@ public class PayByPrimeRS {
     private String acquirer;
     @JsonProperty(value = "currency")
     private String currency;
-    @JsonProperty(value = "card_secret")
-    private CardSecret cardSecret;
     @JsonProperty(value = "rec_trade_id")
     private String recTradeId;
     @JsonProperty(value = "bank_transaction_id")
@@ -48,24 +46,6 @@ public class PayByPrimeRS {
     private boolean isRbaVerified;
     @JsonProperty(value = "transaction_method_details")
     private TransactionMethodDetails transactionMethodDetails;
-
-    @Setter
-    @Getter
-    private static class CardSecret {
-        @JsonProperty(value = "card_token")
-        private String cardToken;
-        @JsonProperty(value = "card_key")
-        private String cardKey;
-
-        @Override
-        public String toString() {
-            StringBuilder builder = new StringBuilder();
-            builder.append("CardSecret [").append("cardToken=").append(cardToken);
-            builder.append(", cardKey=").append(cardKey);
-            builder.append("]");
-            return builder.toString();
-        }
-    }
 
     @Setter
     @Getter
@@ -148,7 +128,7 @@ public class PayByPrimeRS {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("PayByPrimeRS [").append("status=").append(status);
+        builder.append("PayByTokenRS [").append("status=").append(status);
         builder.append(", msg=").append(msg);
         builder.append(", mount=").append(mount);
         builder.append(", acquirer=").append(acquirer);

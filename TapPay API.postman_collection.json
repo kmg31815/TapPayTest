@@ -7,7 +7,45 @@
 	},
 	"item": [
 		{
-			"name": "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime",
+			"name": "directpay/getprime",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "app_Y97nN1U0OOaybIRVSYQiO9aIp4J6ZZeDKtX8S9y4YA4AyKnWVkkXKV3GADKq",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "jsonString",
+							"value": "{\"appid\": \"153920\",  \"appkey\": \"app_Y97nN1U0OOaybIRVSYQiO9aIp4J6ZZeDKtX8S9y4YA4AyKnWVkkXKV3GADKq\", \"appname\": \"client.test\", \"cardnumber\": \"4242424242424242\",  \"cardduedate\": \"203312\", \"cardccv\": \"123\"}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://sandbox.tappaysdk.com/tpc/directpay/getprime",
+					"protocol": "https",
+					"host": [
+						"sandbox",
+						"tappaysdk",
+						"com"
+					],
+					"path": [
+						"tpc",
+						"directpay",
+						"getprime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment/pay-by-prime",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -19,7 +57,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\r\n    \"prime\": \"5a0d1f6ee98613b2eb60d04fb2da15154122216a4485923abe89f74f4a856d8b\",\r\n    \"amount\": \"999\",\r\n    \"merchant_id\": \"tppf_sherry_GP_POS_2\",\r\n    \"details\": \"Some item\",\r\n    \"cardholder\": {\r\n        \"phone_number\": \"+886923456789\",\r\n        \"name\": \"王小明\",\r\n        \"email\": \"LittleMing@Wang.com\",\r\n        \"zip_code\": \"100\",\r\n        \"address\": \"台北市天龍區芝麻街1號1樓\",\r\n        \"national_id\": \"A123456789\"\r\n    }\r\n}",
+					"raw": "{\r\n    \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\r\n    \"prime\": \"50cb8e93d011b5e3cad0ea72738fd32f978b9dd6c182ccb669456172ac27a609\",\r\n    \"amount\": \"100\",\r\n    \"merchant_id\": \"sherry_CTBC\",\r\n    \"details\": \"Some item\",\r\n    // \"remember\": true,\r\n    \"three_domain_secure\": true,\r\n    \"result_url\": {\r\n        \"frontend_redirect_url\": \"http://127.0.0.1:8080/record\",\r\n        \"backend_notify_url\": \"https://test.requestcatcher.com\"\r\n    },\r\n    \"cardholder\": {\r\n        \"phone_number\": \"+886923456789\",\r\n        \"name\": \"王小明\",\r\n        \"email\": \"LittleMing@Wang.com\",\r\n        \"zip_code\": \"100\",\r\n        \"address\": \"台北市天龍區芝麻街1號1樓\",\r\n        \"national_id\": \"A123456789\"\r\n    }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -27,17 +65,116 @@
 					}
 				},
 				"url": {
-					"raw": "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime",
-					"protocol": "https",
+					"raw": "{{main}}/tpc/payment/pay-by-prime",
 					"host": [
-						"sandbox",
-						"tappaysdk",
-						"com"
+						"{{main}}"
 					],
 					"path": [
 						"tpc",
 						"payment",
 						"pay-by-prime"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "payment/pay-by-token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"card_key\": \"40d6c6c172674744b903a9b81082e4a1cf7dc5f3a9ef0e3694c65759491cc770\",\n  \"card_token\": \"f2fe57f413db1af0975fb72b12ee535ef6b2264c3d70df973c69bb3f14aad82c\",\n  \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\n  \"currency\": \"TWD\",\n  \"merchant_id\": \"sherry_CTBC\",\n  \"details\":\"TapPay Test\",\n  \"amount\": 100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{main}}/tpc/payment/pay-by-token",
+					"host": [
+						"{{main}}"
+					],
+					"path": [
+						"tpc",
+						"payment",
+						"pay-by-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction/query",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\n  \"filters\": {\n    \"time\": {\n      \"start_time\": 1726481540000,\n      \"end_time\": 1727691115000\n    },\n    \"rec_trade_id\": \"D20240923sqHQAw\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{main}}/tpc/transaction/query",
+					"host": [
+						"{{main}}"
+					],
+					"path": [
+						"tpc",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction/refund",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"partner_key\": \"partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB\",\n  \"rec_trade_id\": \"D20240923sqHQAw\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{main}}/tpc/transaction/refund",
+					"host": [
+						"{{main}}"
+					],
+					"path": [
+						"tpc",
+						"transaction",
+						"refund"
 					]
 				}
 			},

@@ -18,7 +18,7 @@
 <script>
     // 查詢
     document.querySelector('#submit_record').addEventListener('click', function (event) {
-        const apiUrl = 'http://localhost:8080/record';
+        const apiUrl = 'http://localhost:8080/tpc/transaction/query';
         const data = {
             partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
             filters: {
@@ -55,7 +55,7 @@
 
     // 退款
     document.querySelector('#submit_refund').addEventListener('click', function (event) {
-        const apiUrl = 'http://localhost:8080/refund';
+        const apiUrl = 'http://localhost:8080/tpc/transaction/refund';
         const data = {
             partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
             rec_trade_id: document.getElementById('record_id').value
