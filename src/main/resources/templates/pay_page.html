@@ -42,7 +42,7 @@
         }
     })
 
-    // 一般交易
+    // 一般交易 111
     document.querySelector('#submit').addEventListener('click', function (event) {
         // 取得 prime 字串
         TPDirect.card.getPrime(function (result) {
@@ -53,7 +53,7 @@
             const data = {
                 partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
                 prime: result.card.prime,
-                amount: "999",
+                amount: "111",
                 merchant_id: "sherry_CTBC",
                 details: "Some item",
                 remember: true,
@@ -95,7 +95,7 @@
         })
     })
 
-    // 3D驗證交易
+    // 3D驗證交易 222
     document.querySelector('#submit_3d').addEventListener('click', function (event) {
         TPDirect.card.getPrime(function (result) {
             // document.querySelector('#result').innerHTML = JSON.stringify(result, null, "\t")
@@ -105,7 +105,7 @@
             const data = {
                 partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
                 prime: result.card.prime,
-                amount: "999",
+                amount: "222",
                 merchant_id: "sherry_CTBC",
                 details: "Some item",
                 three_domain_secure: true,
@@ -156,7 +156,7 @@
         console.log("card_token: " + sessionStorage.getItem("card_token"))
     }
 
-    // Pay by Card Token
+    // Pay by Card Token 333
     document.querySelector('#submit_token').addEventListener('click', function (event) {
         console.log("rq card_key: " + sessionStorage.getItem("card_key"))
         console.log("rq card_token: " + sessionStorage.getItem("card_token"))
@@ -168,7 +168,7 @@
             currency: "TWD",
             merchant_id: "sherry_CTBC",
             details: "TapPay Test",
-            amount: 100
+            amount: 333
         };
         const requestOptions = {
             method: 'POST',
