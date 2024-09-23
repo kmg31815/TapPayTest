@@ -22,6 +22,9 @@
     <button id="submit" disabled>一般交易</button>
     <button id="submit_3d" disabled>3D驗證交易</button>
     <div id="result"></div>
+
+    <button id="submit_token" disabled>Pay by Card Token</button>
+    <div id="result_token"></div>
 </div>
 
 <script>
@@ -39,8 +42,6 @@
         }
     })
 
-    const apiUrl = 'http://localhost:8080/tpc/payment/pay-by-prime';
-
     // 一般交易
     document.querySelector('#submit').addEventListener('click', function (event) {
         // 取得 prime 字串
@@ -48,12 +49,14 @@
             // document.querySelector('#result').innerHTML = JSON.stringify(result, null, "\t")
             console.log('getPrime success: ' + result.card.prime)
 
+            const apiUrl = 'http://localhost:8080/tpc/payment/pay-by-prime';
             const data = {
                 partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
                 prime: result.card.prime,
                 amount: "999",
                 merchant_id: "sherry_CTBC",
                 details: "Some item",
+                remember: true,
                 cardholder: {
                     "phone_number": "+886923456789",
                     "name": "王小明",
@@ -81,6 +84,10 @@
                 .then(data => {
                     console.log('成功:', data);
                     document.querySelector('#result').innerHTML = JSON.stringify(data, null, "\t")
+
+                    sessionStorage.setItem("card_token", data.card_secret.card_token)
+                    sessionStorage.setItem("card_key", data.card_secret.card_key)
+                    document.querySelector('#submit_token').removeAttribute('disabled')
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -94,6 +101,7 @@
             // document.querySelector('#result').innerHTML = JSON.stringify(result, null, "\t")
             console.log('getPrime success: ' + result.card.prime)
 
+            const apiUrl = 'http://localhost:8080/tpc/payment/pay-by-prime';
             const data = {
                 partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
                 prime: result.card.prime,
@@ -139,6 +147,51 @@
                     console.error('Error:', error);
                 });
         })
+    })
+
+
+    if (sessionStorage.getItem("card_key") && sessionStorage.getItem("card_token")) {
+        document.querySelector('#submit_token').removeAttribute('disabled')
+        console.log("card_key: " + sessionStorage.getItem("card_key"))
+        console.log("card_token: " + sessionStorage.getItem("card_token"))
+    }
+
+    // Pay by Card Token
+    document.querySelector('#submit_token').addEventListener('click', function (event) {
+        console.log("rq card_key: " + sessionStorage.getItem("card_key"))
+        console.log("rq card_token: " + sessionStorage.getItem("card_token"))
+        const apiUrl = 'http://localhost:8080/tpc/payment/pay-by-token';
+        const data = {
+            card_key: sessionStorage.getItem("card_key"),
+            card_token: sessionStorage.getItem("card_token"),
+            partner_key: "partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB",
+            currency: "TWD",
+            merchant_id: "sherry_CTBC",
+            details: "TapPay Test",
+            amount: 100
+        };
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': 'partner_vvmqxiKUMilxJOUzzxCPpqWa3m2HbC25tK9Or7QZ8qfUItmYnWDb1QfB'
+            },
+            body: JSON.stringify(data),
+        };
+        fetch(apiUrl, requestOptions)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('成功:', data);
+                document.querySelector('#result_token').innerHTML = JSON.stringify(data, null, "\t")
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     })
 </script>
 </body>
